@@ -3,7 +3,7 @@
 Instagram clone
 2019
 
-## By Richard Waweru
+## By Shirley Keter
 
 #### Description
 This is a clone of the instagram website. A user can create an account and sign into it. The site supports uploading images, and following other users.Users can also view photos uploaded by other users in the home page of app.
@@ -54,5 +54,5 @@ There are no known bugs.
 ## Support and contact details
 Contact me on shirleyketer@gmail.com.
 
-License
+## License
 Copyright (c) Shirley Keter
