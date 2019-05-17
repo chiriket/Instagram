@@ -1,17 +1,17 @@
-#### Instagram
+## Instagram
 
-Instagram clone
+#Instagram clone
 2019
 
-## By Shirley Keter
+### By Shirley Keter
 
-#### Description
+## Description
 This is a clone of the instagram website. A user can create an account and sign into it. The site supports uploading images, and following other users.Users can also view photos uploaded by other users in the home page of app.
 
 
-### Set Up and Installations
+## Set Up and Installations
 
-## Prerequisites
+### Prerequisites
 * Ubuntu Software
 * Python3.6
 * Postgres
@@ -19,7 +19,7 @@ This is a clone of the instagram website. A user can create an account and sign 
 * Clone the Repo
 * Run the following command on the terminal: git clone https://github.com/chiriket/Instagram.git && cd Instagram
 
-## Activate virtual environment
+### Activate virtual environment
 Activate virtual environment using python3.6 as default handler
 
 virtualenv -p /usr/bin/python3.6 venv && source venv/bin/activate
@@ -27,13 +27,13 @@ virtualenv -p /usr/bin/python3.6 venv && source venv/bin/activate
 Install dependancies
 Install dependancies that will create an environment for the app to run pip3 install -r requirements.txt
 
-## Create the Database
-psql
-CREATE DATABASE insta;
+### Create the Database
+* psql
+* CREATE DATABASE insta;
 
-## Create .env file.
+### Create .env file.
 
-## Run initial Migration
+### Run initial Migration
 python3.6 manage.py makemigrations gram
 python3.6 manage.py migrate
 Run the app
