@@ -20,11 +20,9 @@ This is a clone of the instagram website. A user can create an account and sign 
 * Run the following command on the terminal: git clone https://github.com/chiriket/Instagram.git && cd Instagram
 
 ### Activate virtual environment
-Activate virtual environment using python3.6 as default handler
+* Activate virtual environment using python3.6 as default handler
 
-virtualenv -p /usr/bin/python3.6 venv && source venv/bin/activate
-
-Install dependancies
+### Install dependancies
 Install dependancies that will create an environment for the app to run pip3 install -r requirements.txt
 
 ### Create the Database
@@ -34,11 +32,11 @@ Install dependancies that will create an environment for the app to run pip3 ins
 ### Create .env file.
 
 ### Run initial Migration
-python3.6 manage.py makemigrations gram
-python3.6 manage.py migrate
-Run the app
-python3.6 manage.py runserver
-Open terminal on localhost:8000
+* python3.6 manage.py makemigrations gram
+* python3.6 manage.py migrate
+* Run the app
+* python3.6 manage.py runserver
+* Open terminal on localhost:8000
 
 ## Known bugs
 There are no known bugs.
