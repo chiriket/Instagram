@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http  import HttpResponse
 
 # Create your views here.
-def welcome(request):
-    return HttpResponse('Welcome to Instagram')
+def index(request):
+    title = 'Home'
+    return render(request, 'index.html', {'title':title})
 # Create your views here.
