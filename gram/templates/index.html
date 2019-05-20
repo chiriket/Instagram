@@ -1,54 +1,39 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
 {% block content %}
-{{block.super}}
-<div class="container-fluid">
+<div class="container top">
     <div class="row">
-        {% for image in images %}
-        <div class="col-sm-6 col-md-4">
-            <h3>{{image.name}}</h3>
-            <img src="{{image.image_path.url}}" class="img-responsive selectedImage card-columns"  size= "100px200">
-            <a href="{% url 'single_image' image.id %}"  target="_blank">link</a>   
-        </div>
-        {% empty %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <!-- <img src="/static/img/404.jpeg" alt="Loading Image"> -->
-                </div>
-                <div class="col-md-6">
-                    
-                    <p>Images are coming up soon</p>
-                </div>
+        <div class="col-md-7">
+            {% for img in images %}
+            <div class="home-images">
+                <p class="home-text">
+                    <a href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+                </p>
+                <img src="{{img.photo.cdn_url}}" alt="Image">
+                <ul class="list-inline home-text">
+                    <li class="list-inline-item">
+                        <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'single_image' image_id=img.id %}"><i class="fa fa-comment-o fa-2x" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+                <ul class="list-inline home-list">
+                    <li class="list-inline-item">
+                        <a href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+                    </li>
+                    <li class="list-inline-item">
+                    {% autoescape on %}
+                        <p>{{img.image_caption|safe}} </p>
+                    {% endautoescape %}
+                    </li>
+                </ul>
+                
             </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-{% for image in images %}
-<div class="modal fade bd-example-modal-lg" id="{{img.id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 modal-image">
-                        <a href="/image/{{img.category.photo_category}}/{{img.id}}">
-                            <img src="{{image.image.path_url}}" alt="{{image.name}}">
-                        </a>
-                    </div>
-                    <div class="col-md-12 modal-text">
-                        <h5 class="modal-title" id="modal-title"> {{image.name}} </h5>
-                        <hr>
-                        <p>{{image.description}}</p>
-                        <p class="small">Posted <span class="font-weight-bold">{{image.post_date|timesince}}</span> ago </p>
-                        <p class="small">Category <span class="font-weight-bold">{{image.category.photo_category}}</span></p>
-                     
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+            <h2>No images. Follow some people to see their images</h2>
+            {% endfor %}
         </div>
     </div>
 </div>
-{% endfor %}
 {% endblock %}

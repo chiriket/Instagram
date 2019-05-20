@@ -9,6 +9,11 @@
         <a href="/">Home</a>
       </li> 
     </ul>
+    <form class="search-section" role="search" action="{% url 'search_results' %}">
+            
+      <input type="search" class="input-search form-control" placeholder="&#x1F50D; Search" name="username">
+
+    </form>
     {% if user.is_authenticated %}
     <ul>
       <li class="dropdown">
@@ -16,9 +21,7 @@
                   <span class="caret"></span>
               </a>
         <ul class="dropdown-menu" role="menu">
-          <li>
-            <a href="{%url 'newsToday'%}">Home</a>
-          </li>
+         
           <li>
             <a href="/accounts/password/change">Change Password</a>
           </li>

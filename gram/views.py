@@ -7,6 +7,7 @@ from .models import Image,Profile
 from .forms import SignupForm, ImageForm, ProfileForm, CommentForm
 from .email import send_welcome_email
 from django.contrib.auth import login, authenticate
+import datetime as dt
 
 # Create your views here.
 def index(request):
@@ -14,22 +15,30 @@ def index(request):
     return render(request, 'index.html', {'title':title})
 
 def signup(request):
-    if request.user.is_authenticated():
-        return redirect('home')
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your Instagram account.'
+            message = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+            )
+            email.send()
+            return HttpResponse('Please confirm your email address to complete the registration')
     else:
-        if request.method == 'POST':
-            form = SignupForm(request.POST)
-            if form.is_valid():
-                user = form.save(commit=False)
-                user.is_active = False
-                user.save()
-                current_site = get_current_site(request)
-                to_email = form.cleaned_data.get('email')
-                send_activation_email(user, current_site, to_email)
-                return HttpResponse('Confirm your email address to complete registration')
-        else:
-            form = SignupForm()
-            return render(request, 'registration/signup.html',{'form':form})
+        form = SignupForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
 
 def comment(request,image_id):
     #Getting comment form data
@@ -44,10 +53,26 @@ def comment(request,image_id):
     return redirect('index')
 
 
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponse('Thank you for confirming email. Now login to your account')
+    else:
+        return HttpResponse('Activation link is invalid')
     
 
 @login_required(login_url='/accounts/login/')
-def search(request):
+def search_results(request):
     if 'username' in request.GET and request.GET["username"]:
         search_term = request.GET.get("username")
         searched_users = User.objects.filter(username=search_term)
@@ -60,8 +85,24 @@ def search(request):
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
 
-def profiles(request,id):
+def profile(request,id):
     profile = Profile.objects.get(user_id=id)
     post=Image.objects.filter(user_id=id)
                        
-    return render(request,'profiles_each.html',{"profile":profile,"post":post})
+    return render(request,'profile.html',{"profile":profile,"post":post})
+
+
+# def profile(request):
+#     date = dt.date.today()
+#     current_user = request.user
+#     profile = Profile.objects.get(user=current_user.id)
+#     print(profile.profile_pic)
+#     posts = Image.objects.filter(user=current_user)
+#     if request.method == 'POST':
+#         signup_form = EditForm(request.POST, request.FILES,instance=request.user.profile) 
+#         if signup_form.is_valid():
+#            signup_form.save()
+#     else:        
+#         signup_form =EditForm() 
+    
+#     return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile, "posts":posts})
