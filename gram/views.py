@@ -37,7 +37,7 @@ def search(request):
         message = f"{search_term}"
         profiles=  Profile.objects.all( )
         
-        return render(request, 'all-posts/search.html',{"message":message,"users": searched_users,'profiles':profiles})
+        return render(request, 'search.html',{"message":message,"users": searched_users,'profiles':profiles})
 
     else:
         message = "You haven't searched for any term"
