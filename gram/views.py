@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from .models import Image,Profile
+from .email import send_welcome_email
 
 # Create your views here.
 def index(request):
