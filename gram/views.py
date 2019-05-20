@@ -23,7 +23,7 @@ def signup(request):
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your Instagram account.'
-            message = render_to_string('acc_active_email.html', {
+            message = render_to_string('active.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -85,24 +85,24 @@ def search_results(request):
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
 
-def profile(request,id):
-    profile = Profile.objects.get(user_id=id)
-    post=Image.objects.filter(user_id=id)
+# def profile(request,id):
+#     profile = Profile.objects.get(user_id=id)
+#     post=Image.objects.filter(user_id=id)
                        
-    return render(request,'profile.html',{"profile":profile,"post":post})
+#     return render(request,'profile.html',{"profile":profile,"post":post})
 
 
-# def profile(request):
-#     date = dt.date.today()
-#     current_user = request.user
-#     profile = Profile.objects.get(user=current_user.id)
-#     print(profile.profile_pic)
-#     posts = Image.objects.filter(user=current_user)
-#     if request.method == 'POST':
-#         signup_form = EditForm(request.POST, request.FILES,instance=request.user.profile) 
-#         if signup_form.is_valid():
-#            signup_form.save()
-#     else:        
-#         signup_form =EditForm() 
+def profile(request):
+    date = dt.date.today()
+    current_user = request.user
+    # profile = Profile.objects.get(user=current_user.id)
+    # print(profile.profile_pic)
+    posts = Image.objects.filter(user=current_user)
+    if request.method == 'POST':
+        signup_form = EditForm(request.POST, request.FILES,instance=request.user.profile) 
+        if signup_form.is_valid():
+           signup_form.save()
+    else:        
+        signup_form =SignupForm() 
     
-#     return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile, "posts":posts})
+    return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile, "posts":posts})
