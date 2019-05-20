@@ -1,19 +1,35 @@
 from django.shortcuts import render
-from django.http  import HttpResponse
-from django.shortcuts import render
 from django.http import HttpResponse, Http404
-from .models import  Image
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from .models import Image,Profile
+from .forms import SignupForm, ImageForm, ProfileForm, CommentForm
 from .email import send_welcome_email
+from django.contrib.auth import login, authenticate
 
 # Create your views here.
 def index(request):
     title = 'Home'
     return render(request, 'index.html', {'title':title})
-#
+
+def signup(request):
+    if request.user.is_authenticated():
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            form = SignupForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                to_email = form.cleaned_data.get('email')
+                send_activation_email(user, current_site, to_email)
+                return HttpResponse('Confirm your email address to complete registration')
+        else:
+            form = SignupForm()
+            return render(request, 'registration/signup.html',{'form':form})
 
 def comment(request,image_id):
     #Getting comment form data
