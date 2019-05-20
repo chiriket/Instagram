@@ -1,7 +1,4 @@
-## Instagram
-
-#Instagram clone
-2019
+#### Instagram
 
 ### By Shirley Keter
 
