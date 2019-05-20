@@ -2,10 +2,49 @@ from django.shortcuts import render
 from django.http  import HttpResponse
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
-from .models import Post, Image
+from .models import  Image
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.db import models
+from .models import Image,Profile
 
 # Create your views here.
 def index(request):
     title = 'Home'
     return render(request, 'index.html', {'title':title})
 #
+
+def comment(request,image_id):
+    #Getting comment form data
+    if request.method == 'POST':
+        image = get_object_or_404(Image, pk = image_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.image = image
+            comment.save()
+    return redirect('index')
+
+
+    
+
+@login_required(login_url='/accounts/login/')
+def search(request):
+    if 'username' in request.GET and request.GET["username"]:
+        search_term = request.GET.get("username")
+        searched_users = User.objects.filter(username=search_term)
+        message = f"{search_term}"
+        profiles=  Profile.objects.all( )
+        
+        return render(request, 'all-posts/search.html',{"message":message,"users": searched_users,'profiles':profiles})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html',{"message":message})
+
+def profiles(request,id):
+    profile = Profile.objects.get(user_id=id)
+    post=Image.objects.filter(user_id=id)
+                       
+    return render(request,'profiles_each.html',{"profile":profile,"post":post})
