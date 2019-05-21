@@ -70,24 +70,29 @@
   <hr>
   <div class="row">
      
+    {% if post %}
        
+    {% for post in post %}
+    
+    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3" style="margin-right:20px">
+      <div class="tumbnail">
+      <img src="{{post.image.url}}" width="300px" height="300px" alt="">
+    </div>
+</div>
+    {% endfor %}
+
+
+{% else %}
+<H1></H1>
+{% endif %}
+        
           
             
-              {% if post %}
+              
        
-                  {% for post in post %}
-                  
-                  <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3" style="margin-right:20px">
-                    <div class="tumbnail">
-                    <img src="{{post.image.url}}" width="300px" height="300px" alt="">
-                  </div>
-              </div>
-                  {% endfor %}
+                
               
               
-              {% else %}
-              <H1>POSTS UNDER CONSTRUCTION</H1>
-              {% endif %}
        
          
        
@@ -102,4 +107,23 @@
   <a class='btn btn-default' href="/accounts/login">Login</a>
 
 
-{% endif %} {% endblock %}
+{% endif %}
+<footer>
+    <div class="footer-cont">
+    <ul class="list-inline">
+        <li><a href='https://www.instagram.com/about/us/'>ABOUT US</a></li>
+        <li><a href='https://help.instagram.com/'>SUPPORT</a></li>
+        <li><a href='https://www.tumblr.com/login_required/instagram#_=_'>BLOG</a></li>
+        <li><a href='https://instagram-press.com/'>PRESS</a></li>
+        <li><a href='https://www.instagram.com/about/jobs/'>JOBS</a></li>
+        <li><a href='https://help.instagram.com/285881641526716?helpref=page_content'>PRIVACY</a></li>
+        <li><a href='https://help.instagram.com/581066165581870'>TERMS</a></li>
+        <li><a href='#' onclick='return false;'>LANGUAGE</a></li>
+        <li><span class='copyright'>© 2019 INSTAGRAM-CLONE</span></li>
+    </ul>
+    
+    </div>
+</footer>
+
+
+{% endblock %}

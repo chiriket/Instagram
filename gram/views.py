@@ -97,7 +97,7 @@ def profile(request):
     current_user = request.user
     # profile = Profile.objects.get(user=current_user.id)
     # print(profile.profile_pic)
-    posts = Image.objects.filter(user=current_user)
+    # posts = Image.objects.filter(user=current_user)
     if request.method == 'POST':
         signup_form = EditForm(request.POST, request.FILES,instance=request.user.profile) 
         if signup_form.is_valid():
@@ -105,4 +105,4 @@ def profile(request):
     else:        
         signup_form =SignupForm() 
     
-    return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile, "posts":posts})
+    return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile})
