@@ -33,6 +33,14 @@
             {% empty %}
             <h2></h2>
             {% endfor %}
+            {% for comment in photos_item.comments.all %}
+            <h6 class="comment-list__comment">
+                            <a class="user">
+                 <em>{{ comment.user.username }}</em>
+              </a>
+              <span class="text-muted">{{ comment.comment }}</span>
+            </h6>
+          {% endfor %}
         </div>
     </div>
 </div>

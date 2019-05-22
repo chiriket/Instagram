@@ -93,3 +93,13 @@ class Comments(models.Model):
     @classmethod
     def get_comments_by_images(cls, id):
         comments = Comments.objects.filter(image__pk = id)
+
+    class Meta:
+        ordering = ('post_date',)
+
+    def __str__(self):
+     return self.name
+
+     
+
+    

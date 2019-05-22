@@ -7,12 +7,18 @@ from .models import Image,Profile
 from .forms import SignupForm, ImageForm, ProfileForm, CommentForm
 from .email import send_welcome_email
 from django.contrib.auth import login, authenticate
+
 import datetime as dt
 
 # Create your views here.
 def index(request):
     title = 'Home'
-    return render(request, 'index.html', {'title':title})
+    date = dt.date.today()
+    photos = Image.objects.all()
+    profiles = Profile.objects.all()
+    # print(profiles)
+    form = CommentForm()
+    return render(request, 'index.html', {'title':title, "photos":photos, "profiles":profiles, "form":form})
 
 def signup(request):
     if request.method == 'POST':
@@ -40,7 +46,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-def comment(request,image_id):
+def comment(request):
     #Getting comment form data
     if request.method == 'POST':
         image = get_object_or_404(Image, pk = image_id)
@@ -50,7 +56,7 @@ def comment(request,image_id):
             comment.user = request.user
             comment.image = image
             comment.save()
-    return redirect('index')
+    return render(request, 'comments.html')
 
 
 
@@ -69,6 +75,21 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for confirming email. Now login to your account')
     else:
         return HttpResponse('Activation link is invalid')
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            edit = form.save(commit=False)
+            edit.user = request.user
+            edit.save()
+            return redirect('edit_profile')
+    else:
+        form = ProfileForm()
+
+    return render(request, 'profile/edit_profile.html', {'form':form})
+
+    
     
 
 @login_required(login_url='/accounts/login/')
@@ -84,6 +105,13 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
+
+def image(request,image_id):
+    try:
+        image = Image.objects.get(id = image_id)
+    except ObjectDoesNotExist:
+        raise Http404()
+    return render(request,'image.html',{'image':image})
 
 # def profile(request,id):
 #     profile = Profile.objects.get(user_id=id)
