@@ -1,26 +1,26 @@
 {% extends 'base.html' %} 
+{% load bootstrap3%}
 
 {% block content %}
 <div class="container top">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7" style="margin-left: 220px">
             {% for img in images %}
-            <div class="home-images">
-                <p class="home-text">
-                    <a href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+            <div class="">
+                <p class="">
+                    <a style="font-family: 'Gochi Hand', cursive;" href="{% url 'profile'%}">{{img.profile.username}}</a>
                 </p>
+                
                 <img src="{{img.photo.cdn_url}}" alt="Image">
-                <ul class="list-inline home-text">
+                <ul class="list-inline">
                     <li class="list-inline-item">
                         <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
                     </li>
-                    <li class="list-inline-item">
-                        <a href="{% url 'single_image' image_id=img.id %}"><i class="fa fa-comment-o fa-2x" aria-hidden="true"></i></a>
-                    </li>
+                    
                 </ul>
-                <ul class="list-inline home-list">
+                <ul class="list-inline">
                     <li class="list-inline-item">
-                        <a href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+                        <a href="{% url 'profile' %}">{{image.profile}}</a>
                     </li>
                     <li class="list-inline-item">
                     {% autoescape on %}
@@ -31,17 +31,11 @@
                 
             </div>
             {% empty %}
-            <h2></h2>
+            <h2>No images. Follow some people to see their images</h2>
             {% endfor %}
-            {% for comment in photos_item.comments.all %}
-            <h6 class="comment-list__comment">
-                            <a class="user">
-                 <em>{{ comment.user.username }}</em>
-              </a>
-              <span class="text-muted">{{ comment.comment }}</span>
-            </h6>
-          {% endfor %}
         </div>
+        
     </div>
+
 </div>
 {% endblock %}

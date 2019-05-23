@@ -8,6 +8,7 @@ This is a clone of the instagram website. A user can create an account and sign 
 
 ## Set Up and Installations
 
+
 ### Prerequisites
 * Ubuntu Software
 * Python3.6

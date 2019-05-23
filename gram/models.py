@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
+from pyuploadcare.dj.models import ImageField
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile',blank=True, null=True)
+    # first_name = models.CharField(max_length=30)
+    # last_name = models.CharField(max_length=30)
     bio = models.CharField(max_length=200)
     profile_pic = models.ImageField(upload_to='profile/')
     pub_date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -30,8 +31,6 @@ class Profile(models.Model):
         profiles = cls.objects.filter(title__icontains=search_term)
         return profiles
     
-    
-    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
 
     def save_profile(self):
         self.save()
@@ -46,23 +45,23 @@ class Profile(models.Model):
         profile = Profile.objects.get(user = id)
         return profile
 
+    @classmethod
+    def filter_by_id(cls, id):
+        profile = Profile.objects.filter(user = id).first()
+        return profile
 
-# class Post(models.Model):
-#     title = models.TextField()
-#     cover = models.ImageField(upload_to='images/')
 
-#     def __str__(self):
-#         return self.title
 
 class Image(models.Model):
-    image_path = models.ImageField(upload_to = 'images/')
+    # image_path = models.ImageField(upload_to = 'images/')
+    photo = ImageField(blank=True, manual_crop='800x800')
     name = models.CharField(max_length=30)
     likes = models.BooleanField(default=False)
     post_date = models.DateTimeField(auto_now_add=True)
-
-    profile = models.ForeignKey(Profile,on_delete=models.CASCADE, blank=True, null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
-   
+    image_name = models.CharField(max_length = 50)
+    image_caption = HTMLField(blank=True)
+    profile = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
+    # profile = models.ForeignKey(User, on_delete=models.CASCADE)
    
     
     class Meta:
@@ -73,6 +72,22 @@ class Image(models.Model):
     
     def delete_image(self):
         self.delete()
+
+    
+    @classmethod
+    def get_image_id(cls, id):
+        image = Image.objects.get(pk=id)
+        return image
+    
+    @classmethod
+    def get_profile_images(cls, profile):
+        images = Image.objects.filter(profile__pk = profile)
+        return images
+    
+    @classmethod
+    def get_all_images(cls):
+        images = Image.objects.all()
+        return images
     
     def __str__(self):
         return self.name

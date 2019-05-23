@@ -1,16 +1,13 @@
 
-<nav class="navbar sticky-top navbar-expand-lg navbar-fixed-top bg-light">
-    <div class="container">
-      <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+<nav class="navbar sticky-top navbar-expand-lg bg-light"  style="background-color: #eff4f7;">
+      <div class="navbar-nav mr-auto">
+          
             <a class="nav-link" href="/"><img src="https://cdn2.iconfinder.com/data/icons/harmonicons-04/64/instagram-512.png" alt="" style="width:30px;height:30px;"></i> <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      <a class="navbar-brand" style="color:black" href="/">Instagram</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+        </div>
+        
+      <a class="navbar-brand" style="color:black; font-size: 30px;" href="/">Instagram</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align: center;">
           <form class="navbar-form" role="search" action="{% url 'search_results'%}">
               <div class="input-group">
                   <input type="text" class="form-control" placeholder="Search Users" name="profile">
@@ -19,22 +16,17 @@
                   </div>
               </div>
               </form>
-      </div>
-      <div class="col-sm-6 col-md-6">
-          
+            </div>
+      <div class=" navbar-right" style="float:centre;">
+        <a href="{% url 'signup' %}" target="_blank" style="float:right; margin-top: -25px; margin-right: 18px; ">Sign Up</a>
         </div>
-      
       <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-              <a class="nav-link" href=""> <i class="far fa-compass" style="font-size:30px; color: black"></i> </a>
-              </li>
-          <li class="nav-item active">
-            <a class="nav-link" href=""><img src="http://www.clker.com/cliparts/f/n/o/m/6/C/transparent-heart.svg" alt="" style="width:45px;height:30px;"></i></a>
-          </li>
-          
-              {% if user.is_authenticated %}
+         
+      </ul>
+      
+        {% if user.is_authenticated %}
                 <li class="dropdown">
-                        <a class="nav-link" href=" " data-toggle="dropdown" role="button"><img src="https://image.flaticon.com/icons/png/128/118/118781.png" alt="" style="width:30px;height:30px;"></i></a>
+                        <a class="nav-link" href=" " data-toggle="dropdown" role="button"><img src="https://image.flaticon.com/icons/png/128/118/118781.png" alt="" style="width:30px;height:30px; margin-left: 1170px;margin-top: -50px;"></a>
                   <ul class="dropdown-menu" role="menu">
                     <li>
                       <a style="font-size:15px;" href="{%url 'profile'%}">Profile</a>
@@ -54,9 +46,4 @@
                 <a style="font-size:15px;" class='btn btn-default' href="/accounts/login">Login</a>
               </li>
               {% endif %}
-            
-            
-        </ul>
-  
-      </div>
     </nav>

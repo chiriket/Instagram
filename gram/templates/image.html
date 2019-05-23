@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
+{% load bootstrap3 %}
 
 {% block content %}
 <div class="container top">
@@ -7,7 +7,7 @@
         <div class="col-md-7">
             <div class="home-images">
                 <p class="home-text">
-                    <a href="{% url 'profile' username=image.profile.username %}">{{image.profile.username}}</a>
+                    <a href="{% url 'profile' %}">{{image.profile.username}}</a>
                 </p>
                 <img src="{{image.image_pic.url}}" alt="Image">
                 <ul class="list-inline home-text">
