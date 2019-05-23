@@ -10,10 +10,29 @@ from .email import send_welcome_email
 from django.contrib.auth import login, authenticate
 
 import datetime as dt
+
 def index(request):
     profile = Profile.objects.all()
     images = Image.get_all_images()
     return render(request, 'index.html', {'images':images,"profile":profile})
+
+def signup(request):
+    if request.user.is_authenticated():
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            form = SignupForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                to_email = form.cleaned_data.get('email')
+                send_activation_email(user, current_site, to_email)
+                return HttpResponse('Confirm your email address to complete registration')
+        else:
+            form = SignupForm()
+            return render(request, 'registration/signup.html',{'form':form})
 
 # Create your views here.
 # def index(request):
@@ -25,30 +44,30 @@ def index(request):
 #     form = CommentForm()
 #     return render(request, 'index.html', {'title':title, "photos":photos, "profiles":profiles, "form":form})
 
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your Instagram account.'
-            message = render_to_string('active.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                        mail_subject, message, to=[to_email]
-            )
-            email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
-    else:
-        form = SignupForm()
-    return render(request, 'registration/signup.html', {'form': form})
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             mail_subject = 'Activate your Instagram account.'
+#             message = render_to_string('active.html', {
+#                 'user': user,
+#                 'domain': current_site.domain,
+#                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+#                 'token':account_activation_token.make_token(user),
+#             })
+#             to_email = form.cleaned_data.get('email')
+#             email = EmailMessage(
+#                         mail_subject, message, to=[to_email]
+#             )
+#             email.send()
+#             return HttpResponse('Please confirm your email address to complete the registration')
+#     else:
+#         form = SignupForm()
+#     return render(request, 'registration/signup.html', {'form': form})
 
 
 def comment(request):

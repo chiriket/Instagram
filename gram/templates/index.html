@@ -31,7 +31,9 @@
                 
             </div>
             {% empty %}
-            <h2>No images. Follow some people to see their images</h2>
+            <a style="font-family: 'Gochi Hand', cursive;" href="{% url 'profile'%}">{{img.profile.username}}</a>
+            <img src="{{img.photo.cdn_url}}" alt="Image">
+            
             {% endfor %}
         </div>
         
