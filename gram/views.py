@@ -11,7 +11,7 @@ from django.contrib.auth import login, authenticate
 
 import datetime as dt
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/')
 def index(request):
     profile = Profile.objects.all()
     images = Image.get_all_images()
