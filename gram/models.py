@@ -12,9 +12,6 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='profile/')
     pub_date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __str__(self):
-        return self.first_name
-
     def save_profile(self):
         self.save()
 

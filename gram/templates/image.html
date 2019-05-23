@@ -17,7 +17,7 @@
                 </ul>
                 <ul class="list-inline home-list">
                     <li class="list-inline-item">
-                        <a href="{% url 'profile' username=image.profile.username %}">{{image.profile.username}}</a>
+                        <a href="{% url 'profile' %}">{{image.profile}}</a>
                     </li>
                     <li class="list-inline-item">
                         <p>{{image.image_caption}} </p>
@@ -32,7 +32,7 @@
                         <div class="col-md-10">
                             <ul class="list-inline home-list">
                                 <li class="list-inline-item">
-                                    <a href="{% url 'profile' username=comment.user.username %}">{{comment.user.username}}</a>
+                                    <a href="{% url 'profile' %}">{{comment.user}}</a>
                                 </li>
                                 <li class="list-inline-item">
                                     <p>{{comment.comment}} </p>

@@ -8,6 +8,8 @@ from .models import Image,Profile,Comments
 from .forms import SignupForm, ImageForm, ProfileForm, CommentForm
 from .email import send_welcome_email
 from django.contrib.auth import login, authenticate
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
 
 import datetime as dt
 
@@ -169,14 +171,15 @@ def image(request,image_id):
 #     return render(request, 'profile/profile.html', {"date": date, "form":signup_form,"profile":profile})
 
 def profile(request):
-    profile = User.objects.get()
+    current_user = request.user
+    profile = Profile.objects.get(user=current_user.id)
     # print(profile.id)
     try:
         profile_details = Profile.get_by_id(profile.id)
     except:
         profile_details = Profile.filter_by_id(profile.id)
     images = Image.get_profile_images(profile.id)
-    title = f'@{profile.username} Instagram photos and videos'
+    title = f'@{profile} Instagram photos and videos'
 
     return render(request, 'profile/profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
 

@@ -13,7 +13,7 @@
       {% if profile.profile_pic %}
       <img  width="200px" height="200px" src="{{profile.profile_pic.url}}" alt="Avatar" class="img-responsive" style="border-radius: 50% ; padding: 0.15rem;  background: linear-gradient(to right bottom, #d82c66, #c92e3b, #e15e43, #f3813f, #ffa63e);">
       {% else %}
-      <img  width="200px" height="200px" src="https://www.bristolbrewing.com/wp-content/uploads/2017/08/default-avatar.png" alt="Avatar" class="img-responsive" style="border-radius: 50% ; padding: 0.15rem;  background: linear-gradient(to right bottom, #d82c66, #c92e3b, #e15e43, #f3813f, #ffa63e);">
+      <img  width="300px" height="300px" src="https://www.bristolbrewing.com/wp-content/uploads/2017/08/default-avatar.png" alt="Avatar" class="img-responsive" style="border-radius: 50% ; padding: 0.15rem;  background: linear-gradient(to right bottom, #d82c66, #c92e3b, #e15e43, #f3813f, #ffa63e);">
   {% endif %}
         <h3>{{profile.bio}}</h3>
     </div>
@@ -27,7 +27,7 @@
           </div>
           <button class="btn btn-info btn-sm">Follow </button>
         
-     {% if user.is_authenticated %}
+    
       
         <div class="col-md-4">0 Followers</div>
         <div class="col-md-4">0 Following</div>
@@ -104,27 +104,12 @@
     {% endfor %}
 
 
-{% else %}
-<H1></H1>
-{% endif %}
+
         
-          
-            
-              
-       
-                
-              
-              
-       
-         
-       
-      
-    
-     
-  </div>
+</div>
 
 </div>
-{% else %}
+
 
   <a class='btn btn-default' href="/accounts/login">Login</a>
 
